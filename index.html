@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>W8 Task2 - AR.js 多物件擴增實境學習教材</title>
+  <title>W8 Task2 進階版 - AR.js 多物件、互動按鈕與測驗教材</title>
   <!-- 引入 Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- A-Frame 和 AR.js -->
@@ -16,18 +16,25 @@
 <body class="bg-gray-900 text-white">
 
   <!-- 頂部導覽列：可切換 AR 模式或 3D 預覽模式 -->
-  <header class="absolute top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md p-4 flex justify-between items-center shadow-lg">
-    <h1 class="text-xs font-bold text-emerald-400">🌿 W8 Task2: AR 多物件生態教材</h1>
+  <header class="absolute top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md p-3 flex justify-between items-center shadow-lg">
+    <h1 class="text-xs font-bold text-emerald-400">🌿 W8 Task2 進階AR教材</h1>
     <div class="space-x-1">
-      <button onclick="switchView('ar')" id="btn-ar" class="px-2.5 py-1 bg-emerald-600 text-xs rounded-lg shadow font-medium">AR 鏡頭模式</button>
-      <button onclick="switchView('web3d')" id="btn-web3d" class="px-2.5 py-1 bg-gray-700 text-xs rounded-lg shadow font-medium">3D 預覽模式</button>
+      <button onclick="switchView('ar')" id="btn-ar" class="px-2 py-1 bg-emerald-600 text-xs rounded-lg shadow font-medium">AR 鏡頭模式</button>
+      <button onclick="switchView('web3d')" id="btn-web3d" class="px-2 py-1 bg-gray-700 text-xs rounded-lg shadow font-medium">3D 預覽模式</button>
     </div>
   </header>
 
-  <!-- AR 模式容器 (對準 Hiro 標記時顯示多個物件：模型、圖卡、影片) -->
+  <!-- AR 模式容器 (對準 Hiro 標記時顯示多個物件) -->
   <div id="ar-view" class="absolute inset-0">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
       <a-marker preset="hiro">
-        <!-- 1. 3D 模型物件 (中心) -->
-        <a-entity position="0 0.5 0" scale="0.7 0.7 0.7">
-          <a-sphere position="0 0 0" radius="0.4" color="#34d399" material="opacity
+        <!-- 1. 3D 模型物件 -->
+        <a-entity position="0 0.5 0" scale="0.6 0.6 0.6">
+          <a-sphere position="0 0 0" radius="0.4" color="#34d399" material="opacity: 0.85; transparent: true;" animation="property: rotation; to: 0 360 0; dur: 8000; loop: true; easing: linear;"></a-sphere>
+          <a-torus position="0 0 0" radius="0.7" tube="0.02" rotation="75 0 0" color="#60a5fa" animation="property: rotation; to: 75 360 0; dur: 5000; loop: true; easing: linear;"></a-torus>
+        </a-entity>
+
+        <!-- 2. 圖卡與文字面板 -->
+        <a-plane position="0 1.4 0" width="1.6" height="0.5" color="#065f46" material="opacity: 0.9; transparent: true;">
+          <a-text value="淡江里山生態探索\n多物件互動圖卡" align="center" position="0 0 0.01" scale="0.5 0.5 0.5" color="#ffffff"></a-text>
+        </a-
