@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR.js 擴增實境互動學習教材</title>
+  <title>W8 Task2 - AR.js 多物件擴增實境學習教材</title>
   <!-- 引入 Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- A-Frame 和 AR.js -->
@@ -16,85 +16,18 @@
 <body class="bg-gray-900 text-white">
 
   <!-- 頂部導覽列：可切換 AR 模式或 3D 預覽模式 -->
-  <header class="absolute top-0 left-0 w-full z-50 bg-black/70 backdrop-blur-md p-4 flex justify-between items-center shadow-lg">
-    <h1 class="text-sm font-bold text-emerald-400">🌿 里山校園生態 AR 教材</h1>
+  <header class="absolute top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md p-4 flex justify-between items-center shadow-lg">
+    <h1 class="text-xs font-bold text-emerald-400">🌿 W8 Task2: AR 多物件生態教材</h1>
     <div class="space-x-1">
       <button onclick="switchView('ar')" id="btn-ar" class="px-2.5 py-1 bg-emerald-600 text-xs rounded-lg shadow font-medium">AR 鏡頭模式</button>
       <button onclick="switchView('web3d')" id="btn-web3d" class="px-2.5 py-1 bg-gray-700 text-xs rounded-lg shadow font-medium">3D 預覽模式</button>
     </div>
   </header>
 
-  <!-- AR 模式容器 (需對準 Hiro 標記) -->
+  <!-- AR 模式容器 (對準 Hiro 標記時顯示多個物件：模型、圖卡、影片) -->
   <div id="ar-view" class="absolute inset-0">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
       <a-marker preset="hiro">
-        <a-entity position="0 0.5 0" scale="0.8 0.8 0.8">
-          <a-sphere position="0 0 0" radius="0.4" color="#34d399" material="opacity: 0.85; transparent: true;" animation="property: rotation; to: 0 360 0; dur: 8000; loop: true; easing: linear;"></a-sphere>
-          <a-torus position="0 0 0" radius="0.7" tube="0.02" rotation="75 0 0" color="#60a5fa" animation="property: rotation; to: 75 360 0; dur: 5000; loop: true; easing: linear;"></a-torus>
-          <a-box position="0 0.7 0" depth="0.2" height="0.2" width="0.2" color="#f472b6" animation="property: position; to: 0 0.9 0; dir: alternate; dur: 1200; loop: true;"></a-box>
-        </a-entity>
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
-  </div>
-
-  <!-- 純 3D 預覽模式容器 (免相機標記，保證看得見模型) -->
-  <div id="web3d-view" class="absolute inset-0 hidden">
-    <a-scene embedded vr-mode-ui="enabled: false">
-      <a-entity position="0 1.6 -3">
-        <a-entity position="0 0 0" scale="1.2 1.2 1.2">
-          <a-sphere position="0 0 0" radius="0.4" color="#34d399" material="opacity: 0.85; transparent: true;" animation="property: rotation; to: 0 360 0; dur: 8000; loop: true; easing: linear;"></a-sphere>
-          <a-torus position="0 0 0" radius="0.7" tube="0.02" rotation="75 0 0" color="#60a5fa" animation="property: rotation; to: 75 360 0; dur: 5000; loop: true; easing: linear;"></a-torus>
-          <a-box position="0 0.7 0" depth="0.2" height="0.2" width="0.2" color="#f472b6" animation="property: position; to: 0 0.9 0; dir: alternate; dur: 1200; loop: true;"></a-box>
-        </a-entity>
-      </a-entity>
-      <a-sky color="#111827"></a-sky>
-      <a-entity camera look-controls></a-entity>
-      <a-light type="ambient" color="#fff"></a-light>
-    </a-scene>
-  </div>
-
-  <!-- 底部說明與語音面板 -->
-  <div class="absolute bottom-6 left-4 right-4 z-50 bg-black/75 backdrop-blur-md p-4 rounded-2xl border border-gray-700 shadow-xl max-w-md mx-auto text-center">
-    <p id="tip-text" class="text-xs text-emerald-300 mb-2">💡 提示：若 AR 相機讀不到標記，請點擊右上角切換至「3D 預覽模式」。</p>
-    <button onclick="playSpeech()" class="px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-xs font-bold rounded-lg shadow transition">🔊 播放語音解說</button>
-  </div>
-
-  <script>
-    // 切換顯示視圖
-    function switchView(mode) {
-      const arView = document.getElementById('ar-view');
-      const web3dView = document.getElementById('web3d-view');
-      const btnAr = document.getElementById('btn-ar');
-      const btnWeb3d = document.getElementById('btn-web3d');
-      const tipText = document.getElementById('tip-text');
-
-      if (mode === 'ar') {
-        arView.classList.remove('hidden');
-        web3dView.classList.add('hidden');
-        btnAr.className = "px-2.5 py-1 bg-emerald-600 text-xs rounded-lg shadow font-medium";
-        btnWeb3d.className = "px-2.5 py-1 bg-gray-700 text-xs rounded-lg shadow font-medium";
-        tipText.innerText = "💡 提示：請將相機對準 Hiro 標記。若無法辨識，可隨時切換至 3D 預覽。";
-      } else {
-        arView.classList.add('hidden');
-        web3dView.classList.remove('hidden');
-        btnWeb3d.className = "px-2.5 py-1 bg-emerald-600 text-xs rounded-lg shadow font-medium";
-        btnAr.className = "px-2.5 py-1 bg-gray-700 text-xs rounded-lg shadow font-medium";
-        tipText.innerText = "💡 目前為 3D 互動預覽模式（不需依賴相機標記），可直接檢視模型。";
-      }
-    }
-
-    // 語音導覽功能
-    function playSpeech() {
-      if ('speechSynthesis' in window) {
-        const text = "這是淡江校園里山生態探索的擴增實境與三D互動教材。";
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'zh-TW';
-        window.speechSynthesis.speak(utterance);
-      } else {
-        alert("您的瀏覽器不支援語音合成功能。");
-      }
-    }
-  </script>
-</body>
-</html>
+        <!-- 1. 3D 模型物件 (中心) -->
+        <a-entity position="0 0.5 0" scale="0.7 0.7 0.7">
+          <a-sphere position="0 0 0" radius="0.4" color="#34d399" material="opacity
